@@ -1,2 +1,6 @@
-<h1>Calculadora de Nota de Álbum</h1> 
-Para me ajudar a calcular a nota dos álbuns/eps ouvidos no site de catalogação de música [Rate Your Music](https://www.rateyourmusic.com/) crie com ajuda de inteligência artificial esse pequeno codigo que calcula a nota que for colocada.
+# 🎵 Calculadora de Nota de Álbum
+Projeto feito para me ajudar a calcular a nota dos *álbuns/eps* ouvidos no site de catalogação de música [Rate Your Music](rateyourmusic.com/). O código foi criado com ajuda de inteligência artificial e funciona desse modo: 
+
+> Digite uma nota por vez (use **x** para faixas sem nota) e pressione
+> **Enter** ou clique em "Adicionar Nota".
+
