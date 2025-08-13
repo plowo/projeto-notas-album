@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora de Nota de Álbum</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center text-indigo-600 mb-4">🎵 Calculadora de Nota de Álbum</h1>
+    
+    <p class="text-gray-600 mb-3 text-sm">
+        Digite uma nota por vez (use <b>x</b> para faixas sem nota) e pressione <b>Enter</b> ou clique em "Adicionar Nota".
+    </p>
+
+    <div class="flex space-x-2">
+        <input type="text" id="notaInput" placeholder="Digite a nota" 
+               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none">
+        <button onclick="adicionarNota()" 
+            class="bg-indigo-400 hover:bg-indigo-500 text-white px-4 py-3 rounded-lg font-medium transition">
+            ➕
+        </button>
+    </div>
+
+    <!-- Lista de notas -->
+    <ul id="listaNotas" class="mt-4 space-y-2"></ul>
+
+    <!-- Botão calcular -->
+    <button onclick="calcular()" 
+        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-lg text-lg font-medium transition mt-4">
+        ✅ Calcular Nota Final
+    </button>
+    
+    <!-- Resultado -->
+    <div id="resultado" 
+         class="mt-5 text-center text-lg font-semibold text-indigo-700 hidden">
+    </div>
+</div>
+
+<script>
+let notas = [];
+
+function adicionarNota() {
+    const input = document.getElementById("notaInput");
+    let valor = input.value.trim().toLowerCase();
+    if (!valor) return;
+
+    if (valor !== 'x') {
+        let num = parseFloat(valor);
+        if (isNaN(num)) {
+            alert("Digite um número válido ou 'x' para faixa sem nota.");
+            return;
+        }
+        notas.push(num);
+    }
+
+    atualizarLista();
+    input.value = "";
+    input.focus();
+}
+
+function removerNota(index) {
+    notas.splice(index, 1);
+    atualizarLista();
+}
+
+function atualizarLista() {
+    const lista = document.getElementById("listaNotas");
+    lista.innerHTML = "";
+
+    notas.forEach((nota, i) => {
+        let li = document.createElement("li");
+        li.className = "flex justify-between items-center bg-indigo-50 p-3 rounded-lg";
+
+        li.innerHTML = `
+            <span class="text-indigo-700 font-medium">${nota.toFixed(1)} ★</span>
+            <button onclick="removerNota(${i})" 
+                class="bg-red-400 hover:bg-red-500 text-white px-3 py-1 rounded-lg transition">
+                ❌
+            </button>
+        `;
+        lista.appendChild(li);
+    });
+}
+
+function calcular() {
+    const resultadoDiv = document.getElementById("resultado");
+
+    if (notas.length === 0) {
+        resultadoDiv.innerText = "Nenhuma nota válida inserida.";
+        resultadoDiv.classList.remove("hidden");
+        return;
+    }
+
+    let media = notas.reduce((a, b) => a + b, 0) / notas.length;
+    let notaFinal = media * 2;
+
+    resultadoDiv.innerHTML =
+        `Média: <span class="text-indigo-600">${media.toFixed(2)}</span> / 5<br>` +
+        `Nota final: <span class="text-indigo-600">${notaFinal.toFixed(1)}</span> / 10`;
+    resultadoDiv.classList.remove("hidden");
+}
+
+// Permitir que Enter adicione nota
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        adicionarNota();
+    }
+});
+</script>
+
+</body>
+</html>
